@@ -18,8 +18,11 @@ for city in slovenian_cities_coords:
     print("- ",city)
 
 mesto = input("Mesto: ")
-if mesto in city:
-    result = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={slovenian_cities_coords[mesto]["latitude"]}&longitude={slovenian_cities_coords[mesto]["longitude"]}&daily=weather_code").json()
+if mesto in slovenian_cities_coords:
+    result = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={slovenian_cities_coords[mesto]["latitude"]}&longitude={slovenian_cities_coords[mesto]["longitude"]}&daily=weather_code,temperature_2m_max,temperature_2m_min").json()
 
 for i in range(len(result["daily"]["time"])):
-    print(result["daily"]["time"][i]," - ",result["daily"]["weather_code"][i])
+    min_temp = result["daily"]["temperature_2m_min"][i]
+    max_temp = result["daily"]["temperature_2m_max"][i]
+    difference = max_temp - min_temp
+    print(result["daily"]["time"][i]," - ",result["daily"]["weather_code"][i], " | Min temperature: ",min_temp, ", Max temperature: ",max_temp, " , Difference: ", round(difference,1))
