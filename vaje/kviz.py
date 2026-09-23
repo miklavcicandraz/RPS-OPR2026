@@ -28,13 +28,20 @@ for question in call["results"]:
     for answer in possible_answers:
         print(f"{possible_answers_num}. answer: {answer}")
         possible_answers_num += 1
+
     
-    user_result = int(input("Enter the number of correct result: "))
-    if possible_answers[user_result-1] == question["correct_answer"]:
-        print("You are right.")
-        points += 1
-    else:
-        print("You are wrong.")
+    
+    while True:
+        try:
+            user_result = int(input("Enter the number of correct result: "))
+            if possible_answers[user_result-1] == question["correct_answer"]:
+                print("You are right.")
+                points += 1
+            else:
+                print("You are wrong.")
+            break
+        except:
+            print("There is no such result. Try again.")
 
     question_num += 1
 
