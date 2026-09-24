@@ -14,19 +14,18 @@ while True:
 call = requests.get(f"https://opentdb.com/api.php?amount={questions_num}").json()
 
 points = 0
-question_num = 1 
 
-for question in call["results"]:
+for question_num,question in enumerate(call["results"]):
     possible_answers = question["incorrect_answers"]
     possible_answers.append(question["correct_answer"])
     random.shuffle(possible_answers)
-
-    print(f"Question number {question_num}.")
-    print("Category:",question["category"])
-    print("Question:",question["question"])
+    print(40*"-")
+    print(f"Question number {question_num+1}.")
+    print("Category:",html.unescape(question["category"]))
+    print("Question:",(html.unescape(question["question"])))
     possible_answers_num = 1
     for answer in possible_answers:
-        print(f"{possible_answers_num}. answer: {answer}")
+        print(f"{possible_answers_num}. answer: {html.unescape(answer)}")
         possible_answers_num += 1
 
     
@@ -42,8 +41,6 @@ for question in call["results"]:
             break
         except:
             print("There is no such result. Try again.")
-
-    question_num += 1
 
 print(40*"-")
 print(f"You got {points} right.")
